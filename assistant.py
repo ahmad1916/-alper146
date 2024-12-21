@@ -81,7 +81,7 @@ def general_conversation(query):
                                  "School is a place to develop skills and knowledge that will help you in life. What's your favorite subject?"],
         "tell me about university": ["University is a place for higher learning and growth. It’s where you dive deep into the subjects you love.",
                                      "University is the next step in your education after school. It’s where you specialize in your area of interest."],
-        "tell me about biomedical engineering": ["Biomedical engineering is an exciting field combining biology, engineering, and technology to solve healthcare problems!",
+        "tell me about biomedical engineering": ["hey mr ahmad, Biomedical engineering is an exciting field combining biology, engineering, and technology to solve healthcare problems!",
                                                 "It’s all about designing medical equipment, prosthetics, and systems that help improve human health."],
         "what do you think about the future": ["The future is full of endless possibilities! With new technologies, who knows what we’ll accomplish?",
                                                "The future is bright, especially with innovations in AI, medicine, and sustainability."],
@@ -89,7 +89,7 @@ def general_conversation(query):
                                         "I don’t see colors, but I imagine blue is calming, and red is energetic!"],
         "how old are you": ["I don’t age like humans, but I’ve been here to assist you since you started using me.",
                             "I was created recently, so I don’t have an age, but I’m always ready to learn and improve!"],
-        "who created you": ["MS AHMAD!."],
+        "who created you": ["Mr AHMAD!."],
     }
 
     for key in responses:
