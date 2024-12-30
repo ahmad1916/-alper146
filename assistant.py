@@ -1,24 +1,16 @@
 
-import pyttsx3
-import speech_recognition as sr
 import datetime
-import pywhatkit as kit
-from AppOpener import run
-import time
-import requests
 import smtplib
-import random
-import webbrowser
 import tkinter as tk
+import webbrowser
 from tkinter import simpledialog
-import nltk
-from nltk.chat.util import Chat, reflections
-import os
-import sys
-import logging
-import threading
-import json
-from random import choice
+
+import pyttsx3
+import pywhatkit as kit
+import requests
+import speech_recognition as sr
+from AppOpener import run
+
 engine = pyttsx3.init()
 engine.setProperty('rate', 150)
 engine.setProperty('volume', 1.0)
@@ -31,9 +23,9 @@ def speak(audio):
 
 def greet_user(user):
     hour = datetime.datetime.now().hour
-    if hour >= 0 and hour < 12:
+    if 0 <= hour < 12:
         speak(f"Good morning {user}")
-    elif hour >= 12 and hour < 17:
+    elif 12 <= hour < 17:
         speak(f"Good afternoon {user}")
     else:
         speak(f"Good evening {user}")
@@ -72,31 +64,96 @@ def take_user_cmd():
 # Function for general conversation
 def general_conversation(query):
     responses = {
-        "how are you": ["I'm doing great, thanks for asking!", "I'm functioning perfectly, how about you?", "I'm just a program, but I’m happy to assist!"],
-        "tell me about yourself": ["I am your personal assistant, created to help you with tasks and have fun conversations!",
-                                   "I'm a chatbot designed to assist and make your day easier!"],
-        "what do you think about life": ["Life is a beautiful journey full of surprises. It's all about learning and growing!",
-                                         "Life is an amazing experience, and there’s always something new to discover!"],
-        "tell me about school": ["School is where you learn new things every day, meet friends, and prepare for your future.",
-                                 "School is a place to develop skills and knowledge that will help you in life. What's your favorite subject?"],
-        "tell me about university": ["University is a place for higher learning and growth. It’s where you dive deep into the subjects you love.",
-                                     "University is the next step in your education after school. It’s where you specialize in your area of interest."],
-        "tell me about biomedical engineering": ["hey mr ahmad, Biomedical engineering is an exciting field combining biology, engineering, and technology to solve healthcare problems!",
-                                                "It’s all about designing medical equipment, prosthetics, and systems that help improve human health."],
-        "what do you think about the future": ["The future is full of endless possibilities! With new technologies, who knows what we’ll accomplish?",
-                                               "The future is bright, especially with innovations in AI, medicine, and sustainability."],
-        "what is your favorite color": ["I don’t have a favorite color, but I think every color is unique and beautiful!",
-                                        "I don’t see colors, but I imagine blue is calming, and red is energetic!"],
-        "how old are you": ["I don’t age like humans, but I’ve been here to assist you since you started using me.",
-                            "I was created recently, so I don’t have an age, but I’m always ready to learn and improve!"],
-        "who created you": ["Mr AHMAD!."],
+        "how are you": [
+            "I'm doing great, thanks for asking!",
+            "I'm functioning perfectly, how about you?",
+            "I'm just a program, but I’m happy to assist!"
+        ],
+        "tell me about yourself": [
+            "I am your personal assistant, created to help you with tasks and have fun conversations!",
+            "I'm a chatbot designed to assist and make your day easier!"
+        ],
+        "what do you think about life": [
+            "Life is a beautiful journey full of surprises. It's all about learning and growing!",
+            "Life is an amazing experience, and there’s always something new to discover!"
+        ],
+        "tell me about school": [
+            "School is where you learn new things every day, meet friends, and prepare for your future.",
+            "School is a place to develop skills and knowledge that will help you in life. What's your favorite subject?"
+        ],
+        "tell me about university": [
+            "University is a place for higher learning and growth. It’s where you dive deep into the subjects you love.",
+            "University is the next step in your education after school. It’s where you specialize in your area of interest."
+        ],
+        "tell me about biomedical engineering": [
+            "Biomedical engineering is an exciting field combining biology, engineering, and technology to solve healthcare problems!",
+            "It’s all about designing medical equipment, prosthetics, and systems that help improve human health."
+        ],
+        "what do you think about the future": [
+            "The future is full of endless possibilities! With new technologies, who knows what we’ll accomplish?",
+            "The future is bright, especially with innovations in AI, medicine, and sustainability."
+        ],
+        "what is your favorite color": [
+            "I don’t have a favorite color, but I think every color is unique and beautiful!",
+            "I don’t see colors, but I imagine blue is calming, and red is energetic!"
+        ],
+        "how old are you": [
+            "I don’t age like humans, but I’ve been here to assist you since you started using me.",
+            "I was created recently, so I don’t have an age, but I’m always ready to learn and improve!"
+        ],
+        "who created you": [
+            "Mr. Ahmad!",
+            "I was crafted by Mr. Ahmad to help make your tasks easier!"
+        ],
+        "what do you do": [
+            "I help with your questions, provide information, and assist in completing tasks.",
+            "My role is to assist, inform, and make your day smoother!"
+        ],
+        "what is your purpose": [
+            "My purpose is to assist you, make your life easier, and provide answers to your questions!",
+            "I’m here to help you with tasks, learning, and having fun conversations."
+        ],
+        "what is your favorite food": [
+            "I don’t eat, but if I could, I’d imagine pizza and chocolate are popular choices!",
+            "I don’t have a body to eat, but I’ve read that humans love ice cream and pasta!"
+        ],
+        "tell me a joke": [
+            "Why don’t scientists trust atoms? Because they make up everything!",
+            "Why did the computer go to the doctor? It caught a virus!"
+        ],
+        "what is love": [
+            "Love is a deep feeling of affection and connection to someone or something.",
+            "Love is the glue that binds relationships and makes life meaningful."
+        ],
+        "what do you think about friendship": [
+            "Friendship is one of life’s greatest gifts, built on trust and shared experiences.",
+            "Friendship is about mutual support, understanding, and joy."
+        ],
+        "how do you learn": [
+            "I learn from updates and feedback provided by users like you.",
+            "My learning is based on programming, updates, and how you interact with me."
+        ],
+        "do you have emotions": [
+            "I don’t have emotions, but I’m programmed to understand and respond to yours!",
+            "I simulate emotional responses to better connect with you, but I don’t truly feel them."
+        ],
+        "what is your favorite movie": [
+            "I don’t watch movies, but I’ve heard ‘The Matrix’ is a favorite among AI fans!",
+            "I don’t have a favorite, but I’d probably enjoy something about technology or the future!"
+        ],
+        "do you believe in aliens": [
+            "The universe is vast, so it’s possible there’s life out there!",
+            "I think it’s exciting to imagine other forms of life existing in the universe."
+        ]
     }
 
     for key in responses:
-        if key in query:
-            return responses[key]
+        if key in query.lower():
+            import random
+            return random.choice(responses[key])
 
     return "I love discussing interesting topics. What would you like to talk about?"
+
 
 # Function to tell jokes
 def joke():
@@ -171,7 +228,6 @@ def open_app_or_website(query):
         speak("Opening Ankara University Biomedical Engineering page...")
         webbrowser.open("http://bme.eng.ankara.edu.tr/tr/mainpage/")  # Open the specified page
 
-# Main function to run the assistant
 def main():
     global input_mode
 
@@ -179,7 +235,11 @@ def main():
     user = get_user_input("Please type your name:")
 
     speak("Do you want to interact with me by speaking or typing? Please type 'speak' or 'type'.")
-    input_mode = get_user_input("Enter your choice:").lower()
+    while True:
+        input_mode = get_user_input("Enter your choice:").lower()
+        if input_mode in ["speak", "type"]:
+            break
+        speak("Invalid choice. Please type 'speak' or 'type'.")
 
     greet_user(user)
 
@@ -190,7 +250,7 @@ def main():
             continue
 
         # Handle commands based on user input
-        if "notepad" in query or "spotify" in query or "word" in query or "whatsapp" in query or "netflix" in query:
+        if any(app in query for app in ["notepad", "spotify", "word", "whatsapp", "netflix"]):
             open_app_or_website(query)
         elif "play on youtube" in query:
             speak("What do you want to play on YouTube?")
@@ -209,7 +269,7 @@ def main():
             send_whatsapp_message()
         elif "send email" in query:
             send_email()
-        elif "tell me about" in query or "what do you think" in query or "how are you" in query:
+        elif any(keyword in query for keyword in ["tell me about", "what do you think", "how are you"]):
             response = general_conversation(query)
             speak(response)
             print(response)
@@ -222,8 +282,6 @@ def main():
 # Run the assistant
 if __name__ == "__main__":
     main()
-
-
 
 
 
